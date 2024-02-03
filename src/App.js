@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import DataService from "./model/DataService";
+import { useEffect, useState } from "react";
+import Tabla from "./view/tabla";
+const DS = new DataService();
 
 function App() {
+
+  let vegpont = "/books";
+  const [objLista, setObjLista] = useState([{}]);
+  useEffect(() => {
+    DS.getAxiosData(vegpont, setObjLista);
+    //console.log(vegpont);
+    //console.log(objLista);
+  }, []);
+  function kattintas(id){
+DS.deleteAxiosData(vegpont, id, (data) => {console.log("delete hiba:", data.data, data.status)})
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>React frontend</h1>
       </header>
+      
+          <Tabla objLista={objLista} kattintas={kattintas}/>
+      
     </div>
   );
 }
